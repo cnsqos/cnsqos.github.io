@@ -72,7 +72,7 @@
     top: 1rem;
     left: 50%;
     transform: translateX(-50%);
-    width: min(1180px, calc(100% - 2rem));
+    width: min(1320px, calc(100% - 2rem));
     z-index: 100;
     display: flex;
     align-items: center;
@@ -150,7 +150,7 @@
 
   #hero {
     min-height: 100vh;
-    width: min(1180px, calc(100% - 2rem));
+    width: min(1320px, calc(100% - 2rem));
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -363,7 +363,7 @@
   }
 
   .section-inner {
-    max-width: 1160px;
+    max-width: 1320px;
     margin: 0 auto;
     padding: 5.5rem 2rem;
   }
@@ -396,7 +396,7 @@
   }
 
   #skills { background: linear-gradient(180deg, #ffffff, #fbfcfe); }
-  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem; }
+  .skills-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1.25rem; }
   .skill-category {
     background: linear-gradient(180deg, #ffffff, #fcfdff);
     border: 1px solid rgba(15,23,42,0.08);
@@ -474,6 +474,12 @@
     display: block;
     transition: transform 0.42s ease;
   }
+  .project-thumb.is-clickable {
+    cursor: pointer;
+  }
+  .project-thumb.is-clickable:hover {
+    cursor: pointer;
+  }
   .project-card:hover .project-thumb img { transform: scale(1.06); }
   .project-thumb::after {
     content: "";
@@ -514,6 +520,10 @@
     border: 1px solid rgba(32,58,91,0.10);
   }
   .project-links { display: flex; flex-wrap: wrap; gap: 0.9rem; }
+  .project-links .project-link:last-child {
+    flex-basis: 100%;
+    margin-top: 0.15rem;
+  }
   .project-link {
     display: inline-flex;
     align-items: center;
@@ -634,7 +644,28 @@
     #hero {
       gap: clamp(5.5rem, 11vw, 9rem);
     }
+
+    .skill-category {
+      padding: 1.45rem;
+    }
+
+    .skill-desc {
+      font-size: 0.8rem;
+      line-height: 1.62;
+    }
+
+    .tag {
+      padding: 0.34rem 0.72rem;
+      font-size: 0.76rem;
+    }
   }
+
+  @media (max-width: 1200px) {
+    .skills-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
 
   @media (max-width: 900px) {
     nav {

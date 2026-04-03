@@ -85,10 +85,18 @@ function applyTheme(theme) {
   try {
     localStorage.setItem('portfolio-theme', theme);
   } catch (e) {}
-  if (themeToggleLabel) themeToggleLabel.textContent = theme === 'dark' ? 'Light' : 'Dark';
-  if (themeToggleIcon) themeToggleIcon.textContent = theme === 'dark' ? '☀' : '☾';
+
+  if (themeToggleLabel) {
+    themeToggleLabel.textContent = theme === 'dark' ? 'Light' : 'Dark';
+  }
+  if (themeToggleIcon) {
+    themeToggleIcon.textContent = theme === 'dark' ? '☀' : '☾';
+  }
   if (themeToggle) {
-    themeToggle.setAttribute('aria-label', theme === 'dark' ? '라이트모드 전환' : '다크모드 전환');
+    themeToggle.setAttribute(
+      'aria-label',
+      theme === 'dark' ? '라이트모드 전환' : '다크모드 전환'
+    );
   }
 }
 
@@ -99,7 +107,8 @@ try {
 applyTheme(savedTheme);
 
 themeToggle?.addEventListener('click', () => {
-  const nextTheme = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  const nextTheme =
+    document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   applyTheme(nextTheme);
 });
 
@@ -113,6 +122,52 @@ window.addEventListener('scroll', () => {
   });
 
   navLinks.forEach((a) => {
-    a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+    a.style.color =
+      a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+  });
+});
+
+const projectCards = document.querySelectorAll('.project-card');
+
+projectCards.forEach((card) => {
+  const thumb = card.querySelector('.project-thumb');
+  if (!thumb) return;
+
+  const projectLinks = [...card.querySelectorAll('.project-link')].filter((link) => {
+    const href = link.getAttribute('href');
+    return href && href !== '#';
+  });
+
+  if (!projectLinks.length) return;
+
+  const demoLink = projectLinks.find((link) => /demo/i.test(link.textContent));
+  const targetLink = demoLink || projectLinks[0];
+  const href = targetLink.getAttribute('href');
+  const isExternal = /^https?:/i.test(href);
+
+  thumb.classList.add('is-clickable');
+  thumb.setAttribute('role', 'link');
+  thumb.setAttribute('tabindex', '0');
+  thumb.setAttribute(
+    'aria-label',
+    `${card.querySelector('.project-name')?.textContent || '프로젝트'} 링크로 이동`
+  );
+
+  const openProjectLink = () => {
+    if (!href || href === '#') return;
+
+    if (isExternal) {
+      window.open(href, '_blank', 'noopener,noreferrer');
+    } else {
+      window.location.href = href;
+    }
+  };
+
+  thumb.addEventListener('click', openProjectLink);
+  thumb.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      openProjectLink();
+    }
   });
 });
